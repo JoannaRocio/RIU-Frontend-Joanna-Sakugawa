@@ -1,13 +1,17 @@
-import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Component } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-heroes-list',
   standalone: true,
-  imports: [CommonModule, RouterModule],
-  template: `
-    <h2>Lista de Héroes</h2>
-  `,
+  selector: 'app-heroes-list',
+  imports: [CommonModule, MatButtonModule],
+  templateUrl: './heroes-list.html'
 })
-export class HeroesList {}
+export class HeroesList {
+  heroes = [
+    { id: 1, name: 'Spiderman' },
+    { id: 2, name: 'Superman' },
+    { id: 3, name: 'Wonder Woman' },
+  ];
+}
