@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { HeroService, Hero } from '../../core/services/hero.service';
+import { Component, inject } from '@angular/core';
+import { HeroService } from '../../core/services/hero.service';
 import { CommonModule } from '@angular/common';
 import { OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -7,6 +7,8 @@ import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
+import { HeroAddButton } from "../hero-add-button/hero-add-button";
+import { Hero } from '../../core/models/hero.model';
 
 @Component({
   standalone: true,
@@ -16,8 +18,9 @@ import { RouterModule } from '@angular/router';
     MatTableModule,
     MatIconModule,
     MatButtonModule,
-    RouterModule
-  ],
+    RouterModule,
+    HeroAddButton
+],
   templateUrl: './heroes-list.html',
 })
 
@@ -26,7 +29,7 @@ export class HeroesList implements OnInit {
   selectedIds: number[] = [];
   displayedColumns: string[] = ['id', 'name', 'photo', 'actions'];
 
-  constructor(private heroService: HeroService) {}
+  private heroService = inject(HeroService);
 
   dataSource = new MatTableDataSource<Hero>();
 
@@ -57,7 +60,11 @@ export class HeroesList implements OnInit {
   }
 
   getImageUrl(hero: Hero): string {
-    // Opcional: si no tenés una propiedad 'image', podés usar una imagen generada
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(hero.name)}&size=64&background=random`;
+  }
+
+  onHeroAdded(newHero: Hero) {
+    this.heroService.add(newHero);
+    this.heroes$ = this.heroService.getAll(); 
   }
 }

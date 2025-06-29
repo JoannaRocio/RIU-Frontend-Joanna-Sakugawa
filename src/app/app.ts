@@ -7,6 +7,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { HeroesList } from "./heroes/heroes-list/heroes-list";
+import { MatDialogModule } from '@angular/material/dialog';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   standalone: true,
@@ -20,7 +22,11 @@ import { HeroesList } from "./heroes/heroes-list/heroes-list";
     MatTabsModule,
     MatIconModule,
     MatButtonModule,
-    HeroesList
+    HeroesList,
+    MatDialogModule,
+    MatButtonModule,
+    MatIconModule,
+    ReactiveFormsModule,
 ],
 })
 export class App {}

@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-export interface Hero {
-  id: number;
-  name: string;
-}
+import { Hero } from '../models/hero.model';
 
 @Injectable({
   providedIn: 'root',
