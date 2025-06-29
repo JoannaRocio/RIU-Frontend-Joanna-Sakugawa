@@ -6,18 +6,16 @@
   <h1 class="main-title">Gestión de Súper Héroes</h1>
 
   <nav class="button-group">
-    <button mat-button color="primary" routerLink="/heroes" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
-      <mat-icon>list</mat-icon> 
-      Lista
-    </button>
-
     <button mat-button color="primary" routerLink="/heroes/new" routerLinkActive="active-link">
       <mat-icon>add</mat-icon>
-      Agregar
+      Añadir
     </button>
   </nav>
 
   <div class="content">
     <router-outlet></router-outlet>
   </div>
+
+  <app-heroes-list />
+
 </section>

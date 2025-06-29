@@ -1,7 +1,41 @@
 <h2>Lista de Súper Héroes</h2>
 
-<ul>
-    <li *ngFor="let hero of heroes">
-        {{ hero.name }}
-    </li>
-</ul>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z2">
+
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef>ID</th>
+        <td mat-cell *matCellDef="let hero">{{ hero.id }}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Nombre</th>
+        <td mat-cell *matCellDef="let hero">{{ hero.name }}</td>
+    </ng-container>
+
+    <!-- Phto Column -->
+    <ng-container matColumnDef="photo">
+        <th mat-header-cell *matHeaderCellDef>Foto</th>
+        <td mat-cell *matCellDef="let hero">
+        <img [src]="getImageUrl(hero)" width="40" height="40" alt="Foto de {{hero.name}}" />
+        </td>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let hero">
+        <button mat-icon-button color="primary" [routerLink]="['/heroes/edit', hero.id]">
+            <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="delete(hero.id)">
+            <mat-icon>delete</mat-icon>
+        </button>
+        </td>
+    </ng-container>
+    
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+</table>

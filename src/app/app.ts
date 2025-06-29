@@ -6,6 +6,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { HeroesList } from "./heroes/heroes-list/heroes-list";
 
 @Component({
   standalone: true,
@@ -15,10 +16,11 @@ import { MatButtonModule } from '@angular/material/button';
   imports: [
     CommonModule,
     RouterModule,
-    MatToolbarModule,  
+    MatToolbarModule,
     MatTabsModule,
     MatIconModule,
-    MatButtonModule
-  ],
+    MatButtonModule,
+    HeroesList
+],
 })
 export class App {}

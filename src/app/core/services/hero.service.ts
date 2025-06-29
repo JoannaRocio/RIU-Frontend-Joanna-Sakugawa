@@ -1,0 +1,94 @@
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+export interface Hero {
+  id: number;
+  name: string;
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class HeroService {
+
+  private readonly initialHeroes: Hero[] = [
+    { id: 1, name: 'Hombre Araña' },
+    { id: 2, name: 'Superman' },
+    { id: 3, name: 'Batman' },
+    { id: 4, name: 'Mujer Maravilla' },
+    { id: 5, name: 'Iron Man' },
+    { id: 6, name: 'Capitán América' },
+    { id: 7, name: 'Hulk' },
+    { id: 8, name: 'Thor' },
+    { id: 9, name: 'Flash' },
+    { id: 10, name: 'Black Panther' },
+    { id: 11, name: 'Doctor Strange' },
+    { id: 12, name: 'Bruja Escarlata' },
+    { id: 13, name: 'Capitana Marvel' },
+    { id: 14, name: 'Ant-Man' },
+    { id: 15, name: 'Deadpool' },
+    { id: 16, name: 'Linterna Verde' },
+    { id: 17, name: 'Cyborg' },
+    { id: 18, name: 'El Chapulín Colorado' },
+    { id: 19, name: 'Kaliman' },
+    { id: 20, name: 'El Eternauta' }
+  ];
+
+  private heroes: Hero[] = [...this.initialHeroes];
+  private heroes$ = new BehaviorSubject<Hero[]>([...this.heroes]);
+
+  reset(): void {
+    this.heroes = [...this.initialHeroes];
+    this.heroes$.next([...this.heroes]);
+  }
+
+  // Obtener todos los héroes
+  getAll(): Observable<Hero[]> {
+    return this.heroes$.asObservable();
+  }
+
+  // Obtener héroe por id
+  getById(id: number): Observable<Hero | undefined> {
+    const hero = this.heroes.find(h => h.id === id);
+    return of(hero); // devuelve Observable
+  }
+
+  // Buscar héroes por nombre
+  search(term: string): Observable<Hero[]> {
+    if (!term.trim()) {
+      return this.getAll();
+    }
+    const lower = term.toLowerCase();
+    return this.heroes$.pipe(
+      map((list) => list.filter((h) => h.name.toLowerCase().includes(lower)))
+    );
+  }
+
+  // Agregar un héroe nuevo
+  add(hero: Hero): void {
+    this.heroes.push(hero);
+    this.heroes$.next([...this.heroes]);
+  }
+
+  // Obtener el último id
+  getNextId(): number {
+    if (this.heroes.length === 0) return 1;
+    const maxId = Math.max(...this.heroes.map(h => h.id));
+    return maxId + 1;
+  }
+
+  // Editar héroe por id
+  update(updatedHero: Hero): void {
+    const index = this.heroes.findIndex(h => h.id === updatedHero.id);
+    if (index !== -1) {
+      this.heroes[index] = updatedHero;
+    }
+  }
+
+  // Eliminar héroe por id
+  delete(id: number): void {
+    this.heroes = this.heroes.filter((h) => h.id !== id);
+    this.heroes$.next([...this.heroes]);
+  }
+}
