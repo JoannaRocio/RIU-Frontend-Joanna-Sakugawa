@@ -9,6 +9,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 import { HeroAddButton } from "../hero-add-button/hero-add-button";
 import { Hero } from '../../core/models/hero.model';
+import { ConfirmModal } from '../../shared/components/confirm-modal/confirm-modal';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   standalone: true,
@@ -30,7 +32,8 @@ export class HeroesList implements OnInit {
   displayedColumns: string[] = ['id', 'name', 'photo', 'actions'];
 
   private heroService = inject(HeroService);
-
+  private dialog = inject(MatDialog);
+  
   dataSource = new MatTableDataSource<Hero>();
 
   ngOnInit() {
@@ -54,9 +57,18 @@ export class HeroesList implements OnInit {
     this.heroes$ = this.heroService.getAll();
   }
 
-  delete(id: number): void {
-    this.heroService.delete(id);
-    this.heroes$ = this.heroService.getAll(); // actualizar lista
+  deleteHero(heroId: number): void {
+    const dialogRef = this.dialog.open(ConfirmModal, {
+      width: '350px',
+      data: { message: '¿Estás segura/o de que querés eliminar este superhéroe?' }
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        this.heroService.delete(heroId);
+        this.heroes$ = this.heroService.getAll();
+      }
+    });
   }
 
   getImageUrl(hero: Hero): string {
