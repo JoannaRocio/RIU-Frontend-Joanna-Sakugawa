@@ -3,8 +3,13 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <mat-form-field style="width: 100%;">
     <input matInput placeholder="Nombre del héroe" formControlName="name" />
-    <mat-error *ngIf="form.get('name')?.hasError('required')">El nombre es obligatorio.</mat-error>
-    <mat-error *ngIf="form.get('name')?.hasError('minlength')">Mínimo 3 caracteres.</mat-error>
+    <mat-error *ngIf="form.get('name')?.hasError('required') && (form.get('name')?.touched || submitted)">
+      El nombre es obligatorio.
+    </mat-error>
+
+    <mat-error *ngIf="form.get('name')?.hasError('minlength') && (form.get('name')?.touched || submitted)">
+      Mínimo 3 caracteres.
+    </mat-error>
   </mat-form-field>
 
   <mat-dialog-actions align="end">

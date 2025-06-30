@@ -32,59 +32,60 @@ export class HeroService {
   ];
 
   private heroes: Hero[] = [...this.initialHeroes];
-  private heroes$ = new BehaviorSubject<Hero[]>([...this.heroes]);
+  private heroesSubject = new BehaviorSubject<Hero[]>([...this.heroes]);
 
+  // resetear lista
   reset(): void {
     this.heroes = [...this.initialHeroes];
-    this.heroes$.next([...this.heroes]);
+    this.heroesSubject.next([...this.heroes]);
   }
 
-  // Obtener todos los héroes
+  // obtener todos los héroes
   getAll(): Observable<Hero[]> {
-    return this.heroes$.asObservable();
+    return this.heroesSubject.asObservable();
   }
 
-  // Obtener héroe por id
+  // obtener héroe por ID
   getById(id: number): Observable<Hero | undefined> {
     const hero = this.heroes.find(h => h.id === id);
-    return of(hero); // devuelve Observable
+    return of(hero);
   }
 
-  // Buscar héroes por nombre
+  // buscar héroes por nombre
   search(term: string): Observable<Hero[]> {
     if (!term.trim()) {
       return this.getAll();
     }
     const lower = term.toLowerCase();
-    return this.heroes$.pipe(
-      map((list) => list.filter((h) => h.name.toLowerCase().includes(lower)))
+    return this.heroesSubject.pipe(
+      map(list => list.filter(h => h.name.toLowerCase().includes(lower)))
     );
   }
 
-  // Agregar un héroe nuevo
+  // agregar héroe nuevo
   add(hero: Hero): void {
     this.heroes.push(hero);
-    this.heroes$.next([...this.heroes]);
+    this.heroesSubject.next([...this.heroes]);
   }
 
-  // Obtener el último id
+  // obtener último id
   getNextId(): number {
     if (this.heroes.length === 0) return 1;
-    const maxId = Math.max(...this.heroes.map(h => h.id));
-    return maxId + 1;
+    return Math.max(...this.heroes.map(h => h.id)) + 1;
   }
 
-  // Editar héroe por id
+  // actualizar héroe existente
   update(updatedHero: Hero): void {
     const index = this.heroes.findIndex(h => h.id === updatedHero.id);
     if (index !== -1) {
       this.heroes[index] = updatedHero;
+      this.heroesSubject.next([...this.heroes]);
     }
   }
 
-  // Eliminar héroe por id
+  // eliminar héroe por id
   delete(id: number): void {
-    this.heroes = this.heroes.filter((h) => h.id !== id);
-    this.heroes$.next([...this.heroes]);
+    this.heroes = this.heroes.filter(h => h.id !== id);
+    this.heroesSubject.next([...this.heroes]);
   }
 }

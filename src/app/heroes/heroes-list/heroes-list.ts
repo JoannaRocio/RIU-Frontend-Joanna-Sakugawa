@@ -11,6 +11,7 @@ import { HeroAddButton } from "../hero-add-button/hero-add-button";
 import { Hero } from '../../core/models/hero.model';
 import { ConfirmModal } from '../../shared/components/confirm-modal/confirm-modal';
 import { MatDialog } from '@angular/material/dialog';
+import { HeroModal } from '../../shared/components/hero-modal/hero-modal';
 
 @Component({
   standalone: true,
@@ -37,9 +38,7 @@ export class HeroesList implements OnInit {
   dataSource = new MatTableDataSource<Hero>();
 
   ngOnInit() {
-    this.heroService.getAll().subscribe(heroes => {
-      this.dataSource.data = heroes;
-    });
+    this.refreshList();
   }
 
   toggleSelection(id: number, event: Event): void {
@@ -54,7 +53,7 @@ export class HeroesList implements OnInit {
   deleteSelected(): void {
     this.selectedIds.forEach(id => this.heroService.delete(id));
     this.selectedIds = [];
-    this.heroes$ = this.heroService.getAll();
+    this.refreshList();
   }
 
   deleteHero(heroId: number): void {
@@ -66,7 +65,7 @@ export class HeroesList implements OnInit {
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
         this.heroService.delete(heroId);
-        this.heroes$ = this.heroService.getAll();
+        this.refreshList();
       }
     });
   }
@@ -77,6 +76,30 @@ export class HeroesList implements OnInit {
 
   onHeroAdded(newHero: Hero) {
     this.heroService.add(newHero);
-    this.heroes$ = this.heroService.getAll(); 
+    this.refreshList();
   }
+
+  editHero(hero: Hero): void {
+    const dialogRef = this.dialog.open(HeroModal, {
+      width: '400px',
+      data: {
+        title: 'Editar héroe',
+        hero: hero
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((updatedHero: Hero) => {
+      if (updatedHero) {
+        this.heroService.update(updatedHero); 
+        this.refreshList();
+      }
+    });
+  }
+
+  refreshList(): void {
+    this.heroService.getAll().subscribe(heroes => {
+      this.dataSource = new MatTableDataSource<Hero>(heroes);
+    });
+  }
+
 }

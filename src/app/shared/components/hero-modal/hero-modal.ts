@@ -21,22 +21,25 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class HeroModal {
   dialogRef = inject(MatDialogRef<HeroModal>);
-  data = inject(MAT_DIALOG_DATA) as { title: string; id: number };
-
+  data = inject(MAT_DIALOG_DATA) as { title: string; id?: number; hero?: { id: number; name: string } };
+  submitted = false;
   fb = inject(FormBuilder);
 
   form: FormGroup = this.fb.group({
-    id: [this.data.id],
-    name: ['', [Validators.required, Validators.minLength(3)]],
+    id: [this.data.hero?.id ?? this.data.id],
+    name: [this.data.hero?.name ?? '', [Validators.required, Validators.minLength(3)]],
   });
 
-  onClose() {
-    this.dialogRef.close();
-  }
-
   onSubmit() {
+    this.submitted = true;
     if (this.form.valid) {
       this.dialogRef.close(this.form.value);
     }
+  }
+
+  onClose(): void {
+    this.submitted = false;
+    this.form.reset();
+    this.dialogRef.close();
   }
 }

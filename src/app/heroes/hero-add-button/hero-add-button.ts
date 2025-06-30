@@ -17,12 +17,14 @@ export class HeroAddButton {
   private heroService = inject(HeroService);
   @Output() heroAdded = new EventEmitter<Hero>();
 
-  openAddHero() {
-    const nextId = this.heroService.getNextId();
+  openHeroModal(heroToEdit?: Hero) {
+    const data = heroToEdit
+      ? { title: 'Editar héroe', hero: heroToEdit }
+      : { title: 'Agregar héroe', id: this.heroService.getNextId() };
 
     const dialogRef = this.dialog.open(HeroModal, {
       width: '400px',
-      data: { title: 'Agregar héroe', id: nextId }
+      data,
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -31,4 +33,5 @@ export class HeroAddButton {
       }
     });
   }
+
 }
