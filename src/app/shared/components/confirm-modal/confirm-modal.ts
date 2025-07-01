@@ -19,7 +19,13 @@ import { CommonModule } from '@angular/common';
 })
 export class ConfirmModal {
   dialogRef = inject(MatDialogRef<ConfirmModal>);
-  data = inject(MAT_DIALOG_DATA) as { message: string };
+  data = inject(MAT_DIALOG_DATA) as {
+    message: string;
+    title?: string;
+    confirmText?: string;
+    cancelText?: string;
+    isConfirmation?: boolean; 
+  };
 
   confirm(): void {
     this.dialogRef.close(true);

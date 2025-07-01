@@ -63,10 +63,22 @@ export class HeroService {
   }
 
   // agregar héroe nuevo
-  add(hero: Hero): void {
+  add(hero: Hero): boolean {
+    const newName = String(hero.name).toLowerCase().trim();
+
+    const alreadyExists = this.heroes.some(
+      h => String(h.name).toLowerCase().trim() === newName
+    );
+
+    if (alreadyExists) {
+      return false;
+    }
+
     this.heroes.push(hero);
     this.heroesSubject.next([...this.heroes]);
+    return true;
   }
+
 
   // obtener último id
   getNextId(): number {

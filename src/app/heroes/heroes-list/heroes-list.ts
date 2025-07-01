@@ -59,7 +59,13 @@ export class HeroesList implements OnInit {
   deleteHero(heroId: number): void {
     const dialogRef = this.dialog.open(ConfirmModal, {
       width: '350px',
-      data: { message: '¿Estás segura/o de que querés eliminar este superhéroe?' }
+      data: { 
+        message: '¿Estás segura/o de que querés eliminar este superhéroe?',
+        title: 'Confirmar eliminación',
+        confirmText: 'Eliminar',
+        cancelText: 'Cancelar',
+        isConfirmation: true
+      }
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
@@ -74,9 +80,22 @@ export class HeroesList implements OnInit {
     return `https://ui-avatars.com/api/?name=${encodeURIComponent(hero.name)}&size=64&background=random`;
   }
 
-  onHeroAdded(newHero: Hero) {
-    this.heroService.add(newHero);
-    this.refreshList();
+  addHero(name: string): void {
+    const newHero = {
+      id: this.heroService.getNextId(),
+      name
+    };
+
+    const success = this.heroService.add(newHero);
+    if (!success) {
+      this.dialog.open(ConfirmModal, {
+        data: {
+          title: 'Superhéroe duplicado',
+          message: `El superhéroe "${name}" ya existe.`,
+          isConfirmation: false
+        }
+      });
+    }
   }
 
   editHero(hero: Hero): void {

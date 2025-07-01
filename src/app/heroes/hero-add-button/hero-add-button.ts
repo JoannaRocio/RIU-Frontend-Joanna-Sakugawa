@@ -15,7 +15,8 @@ import { HeroService } from '../../core/services/hero.service';
 export class HeroAddButton {
   private dialog = inject(MatDialog);
   private heroService = inject(HeroService);
-  @Output() heroAdded = new EventEmitter<Hero>();
+
+  @Output() heroAdded = new EventEmitter<string>();
 
   openHeroModal(heroToEdit?: Hero) {
     const data = heroToEdit
@@ -29,7 +30,7 @@ export class HeroAddButton {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.heroAdded.emit(result);
+        this.heroAdded.emit(result.name);
       }
     });
   }
