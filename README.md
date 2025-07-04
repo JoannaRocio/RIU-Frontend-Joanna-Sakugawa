@@ -13,6 +13,7 @@ SuperHeroes es una aplicación simple para gestionar un listado de superhéroes.
 - Agregar héroe.
 - Eliminar héroe.
 - Editar héroe.
+- Filtrar por nombre o Id.
 
 ## Tecnologías usadas
 
@@ -21,6 +22,7 @@ SuperHeroes es una aplicación simple para gestionar un listado de superhéroes.
 - SCSS
 - Angular CLI
 - Angular Material
+- RxJS
 
 ## Instalación y uso en desarrollo (Windows)
 
