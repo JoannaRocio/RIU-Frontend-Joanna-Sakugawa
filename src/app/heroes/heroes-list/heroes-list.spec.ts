@@ -16,7 +16,7 @@ describe('HeroesList', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create component Heroes List', () => {
     expect(component).toBeTruthy();
   });
 });

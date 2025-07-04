@@ -2,6 +2,8 @@
   <app-hero-add-button (heroAdded)="addHero($event)"></app-hero-add-button>
 </nav>
 
+<app-hero-search (searchByNameOrId)="onSearch($event)"></app-hero-search>
+
 <h2>Lista de Súper Héroes</h2>
 
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z2">

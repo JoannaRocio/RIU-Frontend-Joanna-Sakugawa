@@ -16,7 +16,7 @@ describe('ConfirmModal', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should create component Confirm modal', () => {
     expect(component).toBeTruthy();
   });
 });

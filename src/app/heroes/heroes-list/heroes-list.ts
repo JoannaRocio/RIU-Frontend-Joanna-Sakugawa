@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { HeroModal } from '../../shared/components/hero-modal/hero-modal';
 import { take } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { HeroSearch } from '../hero-search/hero-search';
 
 @Component({
   standalone: true,
@@ -24,6 +25,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatButtonModule,
     RouterModule,
     HeroAddButton,
+    HeroSearch,
   ],
   templateUrl: './heroes-list.html',
 })
@@ -166,4 +168,24 @@ export class HeroesList implements OnInit {
         this.dataSource.data = heroes;
       });
   }
+
+  onSearch(term: string): void {
+    const trimmed = term.trim();
+    if (!trimmed) {
+      this.refreshList();
+      return;
+    }
+  
+    const id = Number(trimmed);
+    if (!isNaN(id) && id > 0) {
+      this.heroService.getById(id).subscribe((hero) => {
+        this.dataSource.data = hero ? [hero] : [];
+      });
+    } else {
+      this.heroService.search(trimmed).subscribe((results) => {
+        this.dataSource.data = results;
+      });
+    }
+  }
+  
 }

@@ -1,22 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HeroModal } from './hero-modal';
+import { HeroSearch } from './hero-search';
 
-describe('HeroModal', () => {
-  let component: HeroModal;
-  let fixture: ComponentFixture<HeroModal>;
+describe('HeroSearch', () => {
+  let component: HeroSearch;
+  let fixture: ComponentFixture<HeroSearch>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [HeroModal],
+      imports: [HeroSearch],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(HeroModal);
+    fixture = TestBed.createComponent(HeroSearch);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create component Hero Modal', () => {
+  it('should create component Hero Search', () => {
     expect(component).toBeTruthy();
   });
 });
