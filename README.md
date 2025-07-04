@@ -8,10 +8,11 @@ SuperHeroes es una aplicación simple para gestionar un listado de superhéroes.
 
 ## Funcionalidades principales
 
-- Crear nuevos superhéroes con nombre y foto.
+- Crear nuevos superhéroes con nombre y foto de las iniciales del superhéroe.
 - Listar todos los héroes.
-- Eliminar héroes.
-- Editar héroes.
+- Agregar héroe.
+- Eliminar héroe.
+- Editar héroe.
 
 ## Tecnologías usadas
 
@@ -26,8 +27,8 @@ SuperHeroes es una aplicación simple para gestionar un listado de superhéroes.
 1. Clonar el repositorio:
 
 ```bash
-git clone https://github.com/JoannaRocio/super-heroes-app.git
-cd super-heroes-app
+git clone https://github.com/JoannaRocio/RIU-Frontend-Joanna-Sakugawa.git
+cd RIU-Frontend-Joanna-Sakugawa
 
 ## Instalar dependencias
 npm install
