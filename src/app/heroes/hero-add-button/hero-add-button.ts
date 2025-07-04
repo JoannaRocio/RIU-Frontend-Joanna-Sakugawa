@@ -10,11 +10,11 @@ import { HeroService } from '../../core/services/hero.service';
   selector: 'app-hero-add-button',
   standalone: true,
   imports: [MatIconModule, MatButtonModule],
-  templateUrl: './hero-add-button.html'
+  templateUrl: './hero-add-button.html',
 })
 export class HeroAddButton {
-  private dialog = inject(MatDialog);
-  private heroService = inject(HeroService);
+  readonly dialog = inject(MatDialog);
+  readonly heroService = inject(HeroService);
 
   @Output() heroAdded = new EventEmitter<string>();
 
@@ -34,5 +34,4 @@ export class HeroAddButton {
       }
     });
   }
-
 }

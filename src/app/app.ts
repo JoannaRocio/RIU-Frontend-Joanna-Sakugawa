@@ -6,7 +6,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { HeroesList } from "./heroes/heroes-list/heroes-list";
+import { HeroesList } from './heroes/heroes-list/heroes-list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -27,6 +27,6 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatButtonModule,
     MatIconModule,
     ReactiveFormsModule,
-],
+  ],
 })
 export class App {}

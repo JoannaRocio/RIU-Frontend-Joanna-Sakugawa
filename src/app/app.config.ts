@@ -6,6 +6,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 export const appConfig = {
   providers: [
     provideRouter(routes),
-    importProvidersFrom(BrowserAnimationsModule)
+    importProvidersFrom(BrowserAnimationsModule),
   ],
 };

@@ -1,7 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogActions, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
+import {
+  MatDialogActions,
+  MatDialogContent,
+  MatDialogTitle,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -12,10 +17,10 @@ import { CommonModule } from '@angular/common';
     MatButtonModule,
     MatDialogTitle,
     MatDialogContent,
-    MatDialogActions
+    MatDialogActions,
   ],
   templateUrl: './confirm-modal.html',
-  styleUrls: ['./confirm-modal.scss']
+  styleUrls: ['./confirm-modal.scss'],
 })
 export class ConfirmModal {
   dialogRef = inject(MatDialogRef<ConfirmModal>);
@@ -24,13 +29,13 @@ export class ConfirmModal {
     title?: string;
     confirmText?: string;
     cancelText?: string;
-    isConfirmation?: boolean; 
+    isConfirmation?: boolean;
   };
 
   confirm(): void {
     this.dialogRef.close(true);
   }
-  
+
   cancel(): void {
     this.dialogRef.close(false);
   }
