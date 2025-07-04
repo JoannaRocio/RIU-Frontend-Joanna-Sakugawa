@@ -7,7 +7,6 @@ import { Hero } from '../models/hero.model';
   providedIn: 'root',
 })
 export class HeroService {
-
   private readonly initialHeroes: Hero[] = [
     { id: 1, name: 'Hombre Araña' },
     { id: 2, name: 'Superman' },
@@ -28,46 +27,46 @@ export class HeroService {
     { id: 17, name: 'Cyborg' },
     { id: 18, name: 'El Chapulín Colorado' },
     { id: 19, name: 'Kaliman' },
-    { id: 20, name: 'El Eternauta' }
+    { id: 20, name: 'El Eternauta' },
   ];
 
   private heroes: Hero[] = [...this.initialHeroes];
-  private heroesSubject = new BehaviorSubject<Hero[]>([...this.heroes]);
+  readonly heroesSubject = new BehaviorSubject<Hero[]>([...this.heroes]);
 
-  // resetear lista
+  // Resetear a los datos originales
   reset(): void {
     this.heroes = [...this.initialHeroes];
     this.heroesSubject.next([...this.heroes]);
   }
 
-  // obtener todos los héroes
+  // Obtener todos los héroes
   getAll(): Observable<Hero[]> {
     return this.heroesSubject.asObservable();
   }
 
-  // obtener héroe por ID
+  // Obtener héroe por ID
   getById(id: number): Observable<Hero | undefined> {
-    const hero = this.heroes.find(h => h.id === id);
+    const hero = this.heroes.find((h) => h.id === id);
     return of(hero);
   }
 
-  // buscar héroes por nombre
+  // Buscar héroes por nombre
   search(term: string): Observable<Hero[]> {
     if (!term.trim()) {
       return this.getAll();
     }
     const lower = term.toLowerCase();
     return this.heroesSubject.pipe(
-      map(list => list.filter(h => h.name.toLowerCase().includes(lower)))
+      map((list) => list.filter((h) => h.name.toLowerCase().includes(lower))),
     );
   }
 
-  // agregar héroe nuevo
+  // Agregar nuevo héroe
   add(hero: Hero): boolean {
-    const newName = String(hero.name).toLowerCase().trim();
+    const newName = hero.name.toLowerCase().trim();
 
     const alreadyExists = this.heroes.some(
-      h => String(h.name).toLowerCase().trim() === newName
+      (h) => h.name.toLowerCase().trim() === newName,
     );
 
     if (alreadyExists) {
@@ -79,25 +78,30 @@ export class HeroService {
     return true;
   }
 
-
-  // obtener último id
+  // Obtener siguiente ID
   getNextId(): number {
     if (this.heroes.length === 0) return 1;
-    return Math.max(...this.heroes.map(h => h.id)) + 1;
+    return Math.max(...this.heroes.map((h) => h.id)) + 1;
   }
 
-  // actualizar héroe existente
+  // Actualizar héroe
   update(updatedHero: Hero): void {
-    const index = this.heroes.findIndex(h => h.id === updatedHero.id);
-    if (index !== -1) {
-      this.heroes[index] = updatedHero;
-      this.heroesSubject.next([...this.heroes]);
-    }
+    if (!updatedHero?.id) return;
+
+    const index = this.heroes.findIndex((h) => h.id === updatedHero.id);
+    if (index === -1) return;
+
+    const currentHero = this.heroes[index];
+
+    if (currentHero.name === updatedHero.name) return;
+
+    this.heroes[index] = { ...updatedHero };
+    this.heroesSubject.next([...this.heroes]);
   }
 
-  // eliminar héroe por id
+  // Eliminar héroe
   delete(id: number): void {
-    this.heroes = this.heroes.filter(h => h.id !== id);
+    this.heroes = this.heroes.filter((h) => h.id !== id);
     this.heroesSubject.next([...this.heroes]);
   }
 }
